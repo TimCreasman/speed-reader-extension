@@ -7,7 +7,7 @@
         {
             "js": ["speed-read.js"],
             "css": ["main.css"],
-            "matches": ["<all_urls>"]
+            "matches": ["*://*/*"]
         }
     ],
     "action": {
