@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-const esbuild = require('esbuild')
-const CopyPlugin = require('esbuild-plugin-copy')
+import * as esbuild from 'esbuild';
+import { execa } from 'execa';
 
 async function build() {
 
@@ -9,22 +9,11 @@ async function build() {
         isDev = true;
     }
 
-    const plugins = [
-        CopyPlugin.copy({
-            asserts: {
-                from: ['./public/**/*'],
-                to: ['./']
-            }
-        })
-
-    ];
-
     const config = {
         entryPoints: [
             './src/popup.ts',
             './src/speed-read.ts',
         ],
-        plugins: plugins,
         outdir: './dist',
         bundle: true,
         minify: true,
@@ -39,6 +28,7 @@ async function build() {
     }
 
     await esbuild.build(config);
+    await execa`cp -a public/. dist/`;
 }
 
 build().catch((err) => {
