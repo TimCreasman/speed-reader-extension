@@ -1,30 +1,33 @@
-import { Settings } from "utils/settings"
+import { Settings, Config } from "utils/settings"
 
-const wpmInput = document.getElementById('wpm') as HTMLInputElement
-const pauseInput = document.getElementById('sentencePause') as HTMLInputElement
-const colorInput = document.getElementById('color') as HTMLInputElement
+/**
+ * Automatically binds the chrome local storage to the inputs defined in popup.html
+ **/
 
-Settings.getWpm().then((result) => {
-    wpmInput.value = result.toString();
-})
+const setupInput = function(id: keyof Config, defaultValue: string) {
+    const elem = document.getElementById(id) as HTMLInputElement;
+    if (!elem) {
+        console.error(`Element not found for config property: ${id}`);
+        return;
+    }
 
-Settings.getSentencePause().then((result) => {
-    pauseInput.value = result.toString();
-})
+    elem.value = defaultValue;
 
-Settings.getColor().then((result) => {
-    colorInput.value = result.toString();
-})
+    elem.addEventListener('change', async (e) => {
+        await Settings.setToStorage(id, (e?.target as HTMLInputElement).value);
+    })
+}
 
-wpmInput.addEventListener('change', async (e) => {
-    await Settings.setWpm((e?.target as HTMLInputElement).value);
-});
+void (async (): Promise<void> => {
+    const config = await Settings.getConfig();
+    for (const key of Object.keys(config)) {
 
-pauseInput.addEventListener('change', async (e) => {
-    await Settings.setSentencePause((e?.target as HTMLInputElement).value);
-});
+        let value: string | number = config[key as keyof Config];
+        if (typeof value === 'number') {
+            value = value.toString();
+        }
 
-colorInput.addEventListener('change', async (e) => {
-    await Settings.setColor((e?.target as HTMLInputElement).value);
-});
+        setupInput(key as keyof Config, value);
+    }
+})();
 
