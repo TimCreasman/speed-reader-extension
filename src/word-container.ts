@@ -41,25 +41,26 @@ export class WordContainer {
     }
 
     animateWords(): void {
-        let word = this.words[this.tick];
-        console.log(word);
-
-        let delay = Utils.wpmToMiliseconds(this.config?.wpm);
-
-        // cache html on first run
-        if (this.tick === 0) {
-            this.cachedHTML = this.element.innerHTML;
-        }
         if (this.tick === this.words.length) {
             // Reset element
             this.element.innerHTML = this.cachedHTML;
             return;
         }
 
+        let word = this.words[this.tick];
+
+        let delay = Utils.wpmToMiliseconds(this.config?.wpm);
+
+
+        // cache html on first run
+        if (this.tick === 0) {
+            this.cachedHTML = this.element.innerHTML;
+        }
+
         this.element.innerHTML = this.render(word);
 
+        // Add extra pause at the very beginning and the end of a sentence
         if (word.includes('.') || this.tick === 0) {
-            // Add extra pause
             delay += this.config?.sentencePause;
         }
 
