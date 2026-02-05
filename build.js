@@ -11,8 +11,8 @@ async function build() {
 
     const config = {
         entryPoints: [
-            './src/popup.ts',
-            './src/speed-read.ts',
+            './src/popup/popup.ts',
+            './src/content/speed-read.ts',
         ],
         outdir: './dist',
         bundle: true,
@@ -28,7 +28,7 @@ async function build() {
     }
 
     await esbuild.build(config);
-    await execa`cp -a public/. dist/`;
+    await execa`cp -a assets/. dist/`;
 }
 
 build().catch((err) => {

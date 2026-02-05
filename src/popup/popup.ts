@@ -1,9 +1,8 @@
-import { Settings, Config } from "utils/settings"
+import { Config, Settings } from "shared/settings";
 
 /**
  * Automatically binds the chrome local storage to the inputs defined in popup.html
  **/
-
 const setupInput = function(id: keyof Config, defaultValue: string) {
     const elem = document.getElementById(id) as HTMLInputElement;
     if (!elem) {

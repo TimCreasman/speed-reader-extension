@@ -1,4 +1,4 @@
-import { WordContainer } from "word-container";
+import { WordContainer } from "./word-container";
 
 
 function setOnClick(elements: HTMLCollectionOf<HTMLParagraphElement>) {
@@ -16,11 +16,7 @@ function setOnClick(elements: HTMLCollectionOf<HTMLParagraphElement>) {
 }
 
 async function speedReadParagraph(p: HTMLParagraphElement) {
-    const wordComponent = new WordContainer(p);
-    await wordComponent.init();
-
-    wordComponent.animateWords();
-
+    await new WordContainer(p).init();
 }
 
 setOnClick(document.getElementsByTagName('p'))

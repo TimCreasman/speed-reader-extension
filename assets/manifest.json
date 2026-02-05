@@ -5,7 +5,7 @@
     "manifest_version": 3,
     "content_scripts": [
         {
-            "js": ["speed-read.js"],
+            "js": ["content/speed-read.js"],
             "css": ["main.css"],
             "matches": ["*://*/*"]
         }
